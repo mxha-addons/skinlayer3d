@@ -1,0 +1,13 @@
+{
+  "skinlayer3d": {
+    "settings": {
+      "enabled": {
+        "name": "Enabled"
+      },
+      "renderDistance": {
+        "name": "Render Distance",
+        "description": "Maximum distance to render 3D skin layers."
+      }
+    }
+  }
+}
