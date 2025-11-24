@@ -36,6 +36,9 @@ public enum Direction {
         return axis;
     }
 
+    /**
+     * @return the opposite direction (e.g., UP returns DOWN)
+     */
     public Direction getOpposite() {
         return switch (this) {
             case DOWN -> UP;
@@ -51,15 +54,5 @@ public enum Direction {
         X,
         Y,
         Z;
-
-        public static final Axis[] VALUES = values();
-
-        public double choose(double x, double y, double z) {
-            return switch (this) {
-                case X -> x;
-                case Y -> y;
-                case Z -> z;
-            };
-        }
     }
 }
