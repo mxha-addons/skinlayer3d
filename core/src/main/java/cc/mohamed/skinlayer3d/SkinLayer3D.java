@@ -22,6 +22,9 @@ public class SkinLayer3D extends LabyAddon<SkinLayer3D.SkinConfig> {
         CONFIG = configuration();
         LOGGER = logger();
 
+        Constants.enabled = CONFIG.enabled.get();
+        Constants.renderDistance = CONFIG.renderDistance.get();
+
         CONFIG.enabled().addChangeListener(val -> Constants.enabled = val);
         CONFIG.renderDistance().addChangeListener(val -> Constants.renderDistance = val);
     }
