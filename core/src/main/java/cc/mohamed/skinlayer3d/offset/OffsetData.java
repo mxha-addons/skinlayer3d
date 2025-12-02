@@ -3,7 +3,6 @@ package cc.mohamed.skinlayer3d.offset;
 import cc.mohamed.skinlayer3d.util.BodyPart;
 import cc.mohamed.skinlayer3d.util.Constants;
 
-
 public record OffsetData(float meshX, float meshY, float meshZ, TransformData transform) {
 
     public static final OffsetData HEAD = create(BodyPart.HEAD, false, false);
@@ -17,16 +16,16 @@ public record OffsetData(float meshX, float meshY, float meshZ, TransformData tr
     public static final OffsetData FIRSTPERSON_LEFT_ARM_SLIM = create(BodyPart.ARMS_SLIM, false, true);
     public static final OffsetData FIRSTPERSON_RIGHT_ARM = create(BodyPart.ARMS, true, true);
     public static final OffsetData FIRSTPERSON_RIGHT_ARM_SLIM = create(BodyPart.ARMS_SLIM, true, true);
-    public static final OffsetData BODY = create(BodyPart.BODY, false, false);
+    public static final OffsetData BODY = create(BodyPart.TORSO, false, false);
 
     private static OffsetData create(BodyPart part, boolean mirrored, boolean firstPerson) {
-        float pixelScaling = Constants.baseVoxelSize;
+        float pixelScaling = Constants.voxelSize;
         float heightScaling = 1.035f;
-        float widthScaling = Constants.baseVoxelSize;
-        if (firstPerson) {
-            pixelScaling = Constants.firstPersonPixelScaling;
-            widthScaling = Constants.firstPersonPixelScaling;
-        }
+        float widthScaling = Constants.voxelSize;
+        /*if (firstPerson) {
+            pixelScaling = Constants.firstPersonVoxelSize;
+            widthScaling = Constants.firstPersonVoxelSize;
+        }*/
 
         float x = 0;
         float y = 0;
@@ -35,8 +34,8 @@ public record OffsetData(float meshX, float meshY, float meshZ, TransformData tr
         } else if (part == BodyPart.ARMS_SLIM) {
             x = 0.499f;
         }
-        if (part == BodyPart.BODY) {
-            widthScaling = Constants.bodyVoxelWidthSize;
+        if (part == BodyPart.TORSO) {
+            widthScaling = Constants.torsoVoxelSize;
         }
         if (mirrored) {
             x *= -1;

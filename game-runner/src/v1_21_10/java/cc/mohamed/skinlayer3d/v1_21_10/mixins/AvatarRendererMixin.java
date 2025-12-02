@@ -4,7 +4,9 @@ import cc.mohamed.skinlayer3d.model.accessor.PlayerEntityModelAccessor;
 import cc.mohamed.skinlayer3d.v1_21_10.accessor.ModelPartMeshHolder;
 import cc.mohamed.skinlayer3d.v1_21_10.accessor.PlayerMeshStorage;
 import cc.mohamed.skinlayer3d.v1_21_10.util.OffsetProvider;
-import cc.mohamed.skinlayer3d.v1_21_10.util.SkinHelper;
+import cc.mohamed.skinlayer3d.v1_21_10.util.PlayerMeshBuilder;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -43,12 +45,20 @@ public abstract class AvatarRendererMixin extends LivingEntityRenderer<AbstractC
         boolean slim = ((PlayerEntityModelAccessor) getModel()).skinlayer3d$hasSlimArms();
         ((ModelPartMeshHolder) (Object) sleeve).skinlayer3d$attachMesh(null, null);
 
-        if (!SkinHelper.setupPlayerMeshes(abstractClientPlayer, settings, slim)) return;
+        if (!PlayerMeshBuilder.buildMeshes(abstractClientPlayer, settings, slim)) return;
 
         if (arm == getModel().leftArm) {
             ((ModelPartMeshHolder) (Object) sleeve).skinlayer3d$attachMesh(settings.skinlayer3d$getLeftSleeveMesh(), slim ? OffsetProvider.FIRSTPERSON_LEFT_ARM_SLIM : OffsetProvider.FIRSTPERSON_LEFT_ARM);
         } else {
             ((ModelPartMeshHolder) (Object) sleeve).skinlayer3d$attachMesh(settings.skinlayer3d$getRightSleeveMesh(), slim ? OffsetProvider.FIRSTPERSON_RIGHT_ARM_SLIM : OffsetProvider.FIRSTPERSON_RIGHT_ARM);
         }
+    }
+
+    @WrapOperation(method = "lambda$new$0", at = @At(value = "NEW",
+            target = "(Lnet/minecraft/client/model/geom/ModelPart;Z)Lnet/minecraft/client/model/PlayerModel;"))
+    private static PlayerModel newPlayerModel(ModelPart modelPart, boolean slim, Operation<PlayerModel> original) {
+        PlayerModel model = original.call(modelPart, slim);
+        ((PlayerEntityModelAccessor) model).skinlayer3d$setDisabled(true);
+        return model;
     }
 }

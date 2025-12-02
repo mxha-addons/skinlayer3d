@@ -6,7 +6,7 @@ import cc.mohamed.skinlayer3d.v1_21_10.accessor.ModelPartMeshHolder;
 import cc.mohamed.skinlayer3d.v1_21_10.accessor.PlayerMeshStorage;
 import cc.mohamed.skinlayer3d.v1_21_10.render.Mesh;
 import cc.mohamed.skinlayer3d.v1_21_10.util.OffsetProvider;
-import cc.mohamed.skinlayer3d.v1_21_10.util.SkinHelper;
+import cc.mohamed.skinlayer3d.v1_21_10.util.PlayerMeshBuilder;
 import net.labymod.v1_21_10.client.util.EntityRenderStateAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -57,14 +57,28 @@ public class PlayerModelMixin<T extends LivingEntity> extends HumanoidModel impl
     @Shadow
     private boolean slim;
 
+    @Unique
+    private boolean disabled;
+
     @Override
     public boolean skinlayer3d$hasSlimArms() {
         return slim;
     }
 
+    @Override
+    public void skinlayer3d$setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+
+    //    @Inject(method = "createMesh", at = @At("TAIL"))
+    //    private static void skinlayer3d$createMesh(CubeDeformation cubeDeformation, boolean $$1, CallbackInfoReturnable<MeshDefinition> cir, @Local(ordinal = 0) PartDefinition root) {
+    //        root.getChild("head").addOrReplaceChild("hat", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, cubeDeformation.extend(Constants.hatVoxelSize)), PartPose.offset(0.0F, 0.0F, 0.0F));
+    //    }
+
     @Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;)V", at = @At("TAIL"))
     public void setupAnim(AvatarRenderState avatarRenderState, CallbackInfo ci) {
-        if (!Constants.enabled) return;
+        if (!Constants.enabled || disabled) return;
         if ((Object) this instanceof PlayerCapeModel) return;
         if (!(avatarRenderState instanceof EntityRenderStateAccessor<?> accessor) || !(accessor.labyMod$getEntity() instanceof Avatar avatar))
             return;
@@ -80,10 +94,10 @@ public class PlayerModelMixin<T extends LivingEntity> extends HumanoidModel impl
             return;
         }
 
-        if (!SkinHelper.setupPlayerMeshes(avatar, settings, slim)) return;
+        if (!PlayerMeshBuilder.buildMeshes(avatar, settings, slim)) return;
 
         ItemStack itemStack = avatar.getItemBySlot(EquipmentSlot.HEAD);
-        if (!SkinHelper.blacklistedHats.contains(itemStack.getItem())) {
+        if (PlayerMeshBuilder.isHelmetAllowed(itemStack.getItem())) {
             skinlayer3d$attachMesh(hat, settings.skinlayer3d$getHatMesh(), OffsetProvider.HEAD);
         }
         skinlayer3d$attachMesh(jacket, settings.skinlayer3d$getTorsoMesh(), OffsetProvider.BODY);
