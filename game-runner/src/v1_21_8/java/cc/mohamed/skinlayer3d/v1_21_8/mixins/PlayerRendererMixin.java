@@ -4,7 +4,7 @@ import cc.mohamed.skinlayer3d.model.accessor.PlayerEntityModelAccessor;
 import cc.mohamed.skinlayer3d.v1_21_8.accessor.ModelPartMeshHolder;
 import cc.mohamed.skinlayer3d.v1_21_8.accessor.PlayerMeshStorage;
 import cc.mohamed.skinlayer3d.v1_21_8.util.OffsetProvider;
-import cc.mohamed.skinlayer3d.v1_21_8.util.SkinHelper;
+import cc.mohamed.skinlayer3d.v1_21_8.util.PlayerMeshBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -41,7 +41,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         boolean slim = ((PlayerEntityModelAccessor) getModel()).skinlayer3d$hasSlimArms();
         ((ModelPartMeshHolder) (Object) sleeve).skinlayer3d$attachMesh(null, null);
 
-        if (!SkinHelper.setupPlayerMeshes(abstractClientPlayer, settings, slim)) return;
+        if (!PlayerMeshBuilder.buildMeshes(abstractClientPlayer, settings, slim)) return;
 
         if (getModel().leftArm.equals(modelPart)) {
             ((ModelPartMeshHolder) (Object) sleeve).skinlayer3d$attachMesh(settings.skinlayer3d$getLeftSleeveMesh(), slim ? OffsetProvider.FIRSTPERSON_LEFT_ARM_SLIM : OffsetProvider.FIRSTPERSON_LEFT_ARM);

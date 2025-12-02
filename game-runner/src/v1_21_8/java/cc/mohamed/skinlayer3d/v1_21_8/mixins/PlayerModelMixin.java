@@ -6,7 +6,7 @@ import cc.mohamed.skinlayer3d.v1_21_8.accessor.ModelPartMeshHolder;
 import cc.mohamed.skinlayer3d.v1_21_8.accessor.PlayerMeshStorage;
 import cc.mohamed.skinlayer3d.v1_21_8.render.Mesh;
 import cc.mohamed.skinlayer3d.v1_21_8.util.OffsetProvider;
-import cc.mohamed.skinlayer3d.v1_21_8.util.SkinHelper;
+import cc.mohamed.skinlayer3d.v1_21_8.util.PlayerMeshBuilder;
 import net.labymod.v1_21_8.client.util.EntityRenderStateAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -77,10 +77,10 @@ public class PlayerModelMixin<T extends LivingEntity> extends HumanoidModel impl
             return;
         }
 
-        if (!SkinHelper.setupPlayerMeshes(clientPlayer, settings, slim)) return;
+        if (!PlayerMeshBuilder.buildMeshes(clientPlayer, settings, slim)) return;
 
         ItemStack itemStack = clientPlayer.getItemBySlot(EquipmentSlot.HEAD);
-        if (!SkinHelper.blacklistedHats.contains(itemStack.getItem())) {
+        if (PlayerMeshBuilder.isHelmetAllowed(itemStack.getItem())) {
             skinlayer3d$attachMesh(hat, settings.skinlayer3d$getHatMesh(), OffsetProvider.HEAD);
         }
         skinlayer3d$attachMesh(jacket, settings.skinlayer3d$getTorsoMesh(), OffsetProvider.BODY);
