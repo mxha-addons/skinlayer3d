@@ -6,7 +6,7 @@ import cc.mohamed.skinlayer3d.v1_19_4.accessor.ModelPartMeshHolder;
 import cc.mohamed.skinlayer3d.v1_19_4.accessor.PlayerMeshStorage;
 import cc.mohamed.skinlayer3d.v1_19_4.render.Mesh;
 import cc.mohamed.skinlayer3d.v1_19_4.util.OffsetProvider;
-import cc.mohamed.skinlayer3d.v1_19_4.util.SkinHelper;
+import cc.mohamed.skinlayer3d.v1_19_4.util.PlayerMeshBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -46,12 +46,12 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
             return;
         }
 
-        if (!SkinHelper.setupPlayerMeshes(player, settings, slim)) {
+        if (!PlayerMeshBuilder.buildMeshes(player, settings, slim)) {
             return;
         }
 
         ItemStack itemStack = player.getItemBySlot(EquipmentSlot.HEAD);
-        if (itemStack.isEmpty() || !SkinHelper.blacklistedHats.contains(itemStack.getItem())) {
+        if (itemStack.isEmpty() || PlayerMeshBuilder.isHelmetAllowed(itemStack.getItem())) {
             skinlayer3d$attachMesh(playerModel.hat, settings.skinlayer3d$getHatMesh(), OffsetProvider.HEAD);
         }
         skinlayer3d$attachMesh(playerModel.jacket, settings.skinlayer3d$getTorsoMesh(), OffsetProvider.BODY);
@@ -69,7 +69,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
         boolean slim = ((PlayerEntityModelAccessor) getModel()).skinlayer3d$hasSlimArms();
         skinlayer3d$attachMesh(sleeve, null, null);
 
-        if (!SkinHelper.setupPlayerMeshes(abstractClientPlayer, settings, slim)) return;
+        if (!PlayerMeshBuilder.buildMeshes(abstractClientPlayer, settings, slim)) return;
 
         if (arm == getModel().leftArm) {
             skinlayer3d$attachMesh(sleeve, settings.skinlayer3d$getLeftSleeveMesh(), slim ? OffsetProvider.FIRSTPERSON_LEFT_ARM_SLIM : OffsetProvider.FIRSTPERSON_LEFT_ARM);
