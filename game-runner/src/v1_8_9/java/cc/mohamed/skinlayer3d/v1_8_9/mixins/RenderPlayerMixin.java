@@ -6,7 +6,7 @@ import cc.mohamed.skinlayer3d.v1_8_9.accessor.ModelPartMeshHolder;
 import cc.mohamed.skinlayer3d.v1_8_9.accessor.PlayerMeshStorage;
 import cc.mohamed.skinlayer3d.v1_8_9.render.Mesh;
 import cc.mohamed.skinlayer3d.v1_8_9.util.OffsetProvider;
-import cc.mohamed.skinlayer3d.v1_8_9.util.SkinHelper;
+import cc.mohamed.skinlayer3d.v1_8_9.util.PlayerMeshBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelPlayer;
@@ -14,6 +14,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -43,12 +44,12 @@ public abstract class RenderPlayerMixin extends RendererLivingEntity<AbstractCli
             return;
         }
 
-        if (!SkinHelper.setupPlayerMeshes(player, settings, slim)) {
+        if (!PlayerMeshBuilder.buildMeshes(player, settings, slim)) {
             return;
         }
 
         ItemStack itemStack = player.getCurrentArmor(3); // head slot is 3
-        if (itemStack == null || !SkinHelper.blacklistedHats.contains(itemStack.getItem())) {
+        if (itemStack == null || (itemStack.getItem() != Items.skull)) {
             playerModel.bipedHeadwear.isHidden = true;
             skinlayer3d$attachMesh(playerModel.bipedHeadwear, settings.skinlayer3d$getHatMesh(), OffsetProvider.HEAD);
         }
