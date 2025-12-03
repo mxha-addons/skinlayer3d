@@ -5,11 +5,11 @@ plugins {
 
 val versions = providers.gradleProperty("net.labymod.minecraft-versions").get().split(";")
 
-group = "cc.mohamed"
+group = "net.labymod"
 version = providers.environmentVariable("VERSION").getOrElse("1.0.0")
 
 labyMod {
-    defaultPackageName = "cc.mohamed.skinlayer3d"
+    defaultPackageName = "net.labymod.addons.skinlayer3d"
 
     minecraft {
         registerVersion(versions.toTypedArray()) {
