@@ -5,39 +5,39 @@ import net.labymod.addons.skinlayer3d.util.Constants;
 
 public record OffsetData(float meshX, float meshY, float meshZ, TransformData transform) {
 
-    public static final OffsetData HEAD = create(BodyPart.HEAD, false, false);
-    public static final OffsetData LEFT_LEG = create(BodyPart.LEGS, false, false);
-    public static final OffsetData RIGHT_LEG = create(BodyPart.LEGS, false, false);
-    public static final OffsetData LEFT_ARM = create(BodyPart.ARMS, false, false);
-    public static final OffsetData LEFT_ARM_SLIM = create(BodyPart.ARMS_SLIM, false, false);
-    public static final OffsetData RIGHT_ARM = create(BodyPart.ARMS, true, false);
-    public static final OffsetData RIGHT_ARM_SLIM = create(BodyPart.ARMS_SLIM, true, false);
-    public static final OffsetData FIRSTPERSON_LEFT_ARM = create(BodyPart.ARMS, false, true);
-    public static final OffsetData FIRSTPERSON_LEFT_ARM_SLIM = create(BodyPart.ARMS_SLIM, false, true);
-    public static final OffsetData FIRSTPERSON_RIGHT_ARM = create(BodyPart.ARMS, true, true);
-    public static final OffsetData FIRSTPERSON_RIGHT_ARM_SLIM = create(BodyPart.ARMS_SLIM, true, true);
-    public static final OffsetData BODY = create(BodyPart.TORSO, false, false);
+    public static final OffsetData HEAD = create(BodyPart.HEAD, false);
+    public static final OffsetData LEFT_LEG = create(BodyPart.LEFT_LEG, false);
+    public static final OffsetData RIGHT_LEG = create(BodyPart.RIGHT_LEG, false);
+    public static final OffsetData LEFT_ARM = create(BodyPart.LEFT_ARM, false);
+    public static final OffsetData LEFT_ARM_SLIM = create(BodyPart.LEFT_ARM_SLIM, false);
+    public static final OffsetData RIGHT_ARM = create(BodyPart.RIGHT_ARM, false);
+    public static final OffsetData RIGHT_ARM_SLIM = create(BodyPart.RIGHT_ARM_SLIM, false);
+    public static final OffsetData FIRSTPERSON_LEFT_ARM = create(BodyPart.LEFT_ARM, true);
+    public static final OffsetData FIRSTPERSON_LEFT_ARM_SLIM = create(BodyPart.LEFT_ARM_SLIM, true);
+    public static final OffsetData FIRSTPERSON_RIGHT_ARM = create(BodyPart.RIGHT_ARM, true);
+    public static final OffsetData FIRSTPERSON_RIGHT_ARM_SLIM = create(BodyPart.RIGHT_ARM_SLIM, true);
+    public static final OffsetData BODY = create(BodyPart.TORSO, false);
 
-    private static OffsetData create(BodyPart part, boolean mirrored, boolean firstPerson) {
+    private static OffsetData create(BodyPart part, boolean firstPerson) {
         float pixelScaling = Constants.voxelSize;
         float heightScaling = 1.035f;
         float widthScaling = Constants.voxelSize;
-        /*if (firstPerson) {
+        if (firstPerson) {
             pixelScaling = Constants.firstPersonVoxelSize;
             widthScaling = Constants.firstPersonVoxelSize;
-        }*/
+        }
 
         float x = 0;
         float y = 0;
-        if (part == BodyPart.ARMS) {
+        if (part == BodyPart.LEFT_ARM || part == BodyPart.RIGHT_ARM) {
             x = 0.998f;
-        } else if (part == BodyPart.ARMS_SLIM) {
+        } else if (part == BodyPart.LEFT_ARM_SLIM || part == BodyPart.RIGHT_ARM_SLIM) {
             x = 0.499f;
         }
         if (part == BodyPart.TORSO) {
             widthScaling = Constants.torsoVoxelSize;
         }
-        if (mirrored) {
+        if (part == BodyPart.RIGHT_ARM || part == BodyPart.RIGHT_ARM_SLIM) {
             x *= -1;
         }
 

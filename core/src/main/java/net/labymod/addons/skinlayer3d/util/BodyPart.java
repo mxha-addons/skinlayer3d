@@ -19,12 +19,7 @@ public enum BodyPart {
     LEFT_ARM(4, 12, 4, 48, 48, true, -2f, -0.1f),
     RIGHT_ARM(4, 12, 4, 40, 32, true, -2f, -0.1f),
     LEFT_ARM_SLIM(3, 12, 4, 48, 48, true, -2f, -0.1f),
-    RIGHT_ARM_SLIM(3, 12, 4, 40, 32, true, -2f, -0.1f),
-
-    // Legacy enum values for OffsetData compatibility
-    LEGS(4, 12, 4, 0, 32, true, 0f, -0.2f),
-    ARMS(4, 12, 4, 48, 48, true, -2f, -0.1f),
-    ARMS_SLIM(3, 12, 4, 48, 48, true, -2f, -0.1f);
+    RIGHT_ARM_SLIM(3, 12, 4, 40, 32, true, -2f, -0.1f);
 
     private final int width;
     private final int height;
