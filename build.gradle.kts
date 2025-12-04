@@ -24,9 +24,8 @@ labyMod {
     addonInfo {
         namespace = "skinlayer3d"
         displayName = "SkinLayer 3D"
-        author = "mxha39"
-        description = "Example Description"
-        minecraftVersion = "1.8.9,1.12.2,1.16.5,1.17.1,1.19.4,1.20.1,1.20.6,1.21.1,1.21.4,1.21.8,1.21.10"
+        author = "LabyMedia GmbH"
+        minecraftVersion = "1.8.9<1.21.10"
         version = rootProject.version.toString()
     }
 }
